@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::body},'home')}">
+
+
+<body>
+		<div id="apis">
+			<table>
+				<tbody>
+					<tr>
+						<td style="column-width: 150px;"></td>
+						<td><br></td>
+					</tr>
+					<tr>
+						<td style="column-width: 150px;">Get Gadget:</td>
+						<td><a id="get-gadget-href-id" href="#"> get:/gadget</a></td>
+					</tr>
+					<tr>
+						<td style="column-width: 150px;"></td>
+						<td><br></td>
+					</tr>
+					<tr>
+						<td style="column-width: 150px;">Response:</td>
+						<td><input id="get-gadget-response-display" type="text"
+							name="country" value="" readonly style="height: 50px;color: gray;" size="100"></td>
+					</tr>
+
+					<tr>
+						<td style="column-width: 150px;"></td>
+						<td><br></td>
+					</tr>
+					<tr>
+						<td style="column-width: 150px;">Get Single Gadget:</td>
+						<td><a id="get-gadget-id-href-id" href="#"> /gadget/{id}</a></td>
+					</tr>
+					<tr>
+						<td style="column-width:"></td>
+						<td><br></td>
+					</tr>
+					<tr>
+						<td style="column-width: 150px;">Response:</td>
+						<td><input id="get-single-gadget-response-display"
+							type="text" name="country" value="" readonly style="height: 50px"
+							size="100"></td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<br>
+
+	</div>
+	<br>
+	
+</body>
+
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::body},'home')}">
+
+<body>
+
+	<h1 th:text="#{welcome}">Modusbox Open API</h1>
+	<hr>
+	<div class="row">
+		<div class="col-md-12">You can get started on building your
+			integration with our Open API by following these steps:</div>
+
+	</div>
+	<br>
+	<ol data-toc="div.container" data-toc-headings="h2,h3,h4"></ol>
+	<br>
+	<div class="row">
+		<h2>Register Your Application</h2>
+		<h3>Try our API</h3>
+		<p>The first step on your way to integration with our API is the
+			registration of an OAuth application on the Anypoint Platform site.
+			In order to do this you will need to have signed up and completed the
+			account creation process.</p>
+		<br>
+		<div id="sign-links">
+			<!-- <a href="/redirect-to-acme">Try API</a> -->
+			<a id="try-api-link" href="/redirect-to-acme">Try API</a> 
+		</div>
+		<br>
+
+	</div>
+	<br>
+	
+</body>
+
+
+</html>
