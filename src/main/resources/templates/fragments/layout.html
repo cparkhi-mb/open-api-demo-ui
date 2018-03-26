@@ -78,14 +78,17 @@
 				//stop submit the form, we will post it manually.
 				event.preventDefault();
 				//
-				fire_ajax_submit();
+				getApiInfoAndExecute();
 			});
 			
 			$("#get-gadget-id-href-id").click(function(event) {
 				//stop submit the form, we will post it manually.
 				event.preventDefault();
+				
+				var id = prompt("prompt", "enter gadget id");
+				console.log("gadget id " + id);
 				//
-				fire_ajax_submit();
+				getApiInfoAndExecuteWithId(id);
 			});
 
 		});
@@ -100,18 +103,27 @@
 		    }
 		};
 		
-		function callApi(data){
-			console.log("JSON : ", JSON.parse(data));
+		function callApi(data,id){
+			var result = JSON.parse(data);
+			console.log("JSON : ", result);
+			var uri = 'https://localhost:9999/acme/gadget/1';
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				contentType: "application/json",
-				url: '/fakeApi',
-				data:JSON.stringify('{\'access_token\':\'' + data.access_token + '\'}'),
+				beforeSend: function(request) {
+					request.setRequestHeader("Authorization", "Bearer " + result.access_token);
+				},
+				url: uri,
+				//data:JSON.stringify('{\'access_token\':\'' + data.access_token + '\'}'),
 				cache: false,
 		        timeout: 600000,
 		        success: function (data) {
 		        	console.log('API Success' + data);
-		        	  $('#get-gadget-response-display').val(data);
+		        	if (id){
+		        		$('#get-single-gadget-response-display').val(JSON.stringify(data));
+		        	}else{
+		        		$('#get-gadget-response-display').val(JSON.stringify(data));
+		        	}
 		        },
 		        error: function (e) {
 		        	console.log('API Failure' + e);
@@ -119,12 +131,12 @@
 			});
 		};
 		
-		function fire_ajax_submit() {
+		function getApiInfoAndExecute() {
 			//alert($.urlParam('code'));
 		    $.ajax({
 		        type: "POST",
 		        contentType: "application/json",
-		        url: "/getGadget",
+		        url: "/getAuthInfo",
 		        data:JSON.stringify($.urlParam('code')) ,
 		       // dataType: 'json',
 		        cache: false,
@@ -134,26 +146,35 @@
 		        	console.log('completed' + res);
 		        },
 		        success: function (data) {
-		        	//alert('success');
-//		            var json = "<h4>Ajax Response</h4><pre>"
-//		                + JSON.stringify(data, null, 4) + "</pre>";
-//		            $('#feedback').html(json);
-
 		            console.log("SUCCESS : ", data);
 		            callApi(data);
-		          //  window.location.href = data.acmeUrl;
-		          //  $("#btn-search").prop("disabled", false);
-
 		        },
 		        error: function (e) {
-		        	//alert('fail');
-//		            var json = "<h4>Ajax Response</h4><pre>"
-//		                + e.responseText + "</pre>";
-//		            $('#feedback').html(json);
-
 		            console.log("ERROR : ", e);
-		         //   $("#btn-search").prop("disabled", false);
-
+		        }
+		    });
+		};
+		
+		function getApiInfoAndExecuteWithId(id) {
+			//alert($.urlParam('code'));
+		    $.ajax({
+		        type: "POST",
+		        contentType: "application/json",
+		        url: "/getAuthInfo",
+		        data:JSON.stringify($.urlParam('code')) ,
+		       // dataType: 'json',
+		        cache: false,
+		        timeout: 600000,
+		        complete: function (res){
+		        	//alert('completed' + res);
+		        	console.log('completed' + res);
+		        },
+		        success: function (data) {
+		            console.log("SUCCESS : ", data);
+		            callApi(data,id);
+		        },
+		        error: function (e) {
+		            console.log("ERROR : ", e);
 		        }
 		    });
 		}

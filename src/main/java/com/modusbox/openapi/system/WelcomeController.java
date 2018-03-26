@@ -2,17 +2,22 @@ package com.modusbox.openapi.system;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContexts;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,14 +50,9 @@ class WelcomeController {
 		return mav;
 	}
 
-	@RequestMapping("/getGadget")
+	@RequestMapping("/getAuthInfo")
 	public @ResponseBody String getGadget(@RequestBody Object data, ModelMap m) {
-		return "{\"access_token\":" + "\"" + getAccessToken(data.toString()) + "\"," + "\"method\":\"GET\", \"path\":\"" + "https://localhost:9999/gadget/1" + "\"}" ;
-	}
-
-	@RequestMapping("/fakeApi")
-	public  @ResponseBody String fakeAPi(@RequestBody Object data) {
-		return "{\"code\":\"value\"}" ;
+		return "{\"access_token\":\"" + getAccessToken(data.toString()) + "\"}";
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -79,14 +79,19 @@ class WelcomeController {
 			httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 			httpPost.setHeader("Authorization", "Basic YWI4OGRjNmNhY2IxNDE3Y2JkZDYzZGVjMjg4NDJmZGI6NzVjZTA5ODgzZGYxNEYwRDhjQjM2Rjg4ZWYzRjk4QzQK");
 			auth = java.net.URLEncoder.encode(auth);
-			String payload = "{\"grant_type\":\"authorization_code\",\"redirect_uri\":\"http://localhost:8080/api\",\"code\":\"" + auth + "\"}";
-			httpPost.setEntity(new StringEntity(payload));
-			CloseableHttpResponse response = client.execute(httpPost);
-			//assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
+			
+			List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+			nvps.add(new BasicNameValuePair("code", auth));
+			nvps.add(new BasicNameValuePair("grant_type", "authorization_code"));
+			nvps.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/auth"));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			String response =  new BasicResponseHandler().handleResponse(client.execute(httpPost));
 			client.close();
 			
-			//return response.getStatusLine().getReasonPhrase();
-			return "access_token";
+			JSONObject json = new JSONObject(response);
+			
+			return json.getString("access_token");
 
 		} catch (Exception e) {
 			e.printStackTrace();
