@@ -73,111 +73,77 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+
 			$("#get-gadget-href-id").click(function(event) {
 				//stop submit the form, we will post it manually.
 				event.preventDefault();
 				//
 				getApiInfoAndExecute();
 			});
-			
-			$("#get-gadget-id-href-id").click(function(event) {
-				//stop submit the form, we will post it manually.
-				event.preventDefault();
-				
-				var id = prompt("prompt", "enter gadget id");
-				console.log("gadget id " + id);
-				//
-				getApiInfoAndExecuteWithId(id);
-			});
 
 		});
-		
-		$.urlParam = function(name){
-		    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-		    if (results==null){
-		       return null;
-		    }
-		    else{
-		       return decodeURI(results[1]) || 0;
-		    }
+
+		$.urlParam = function(name) {
+			var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+					.exec(window.location.href);
+			if (results == null) {
+				return null;
+			} else {
+				return decodeURI(results[1]) || 0;
+			}
 		};
-		
-		function callApi(data,id){
+
+		function callApi(data, id) {
 			var result = JSON.parse(data);
 			console.log("JSON : ", result);
-			var uri = 'https://localhost:9999/acme/gadget/1';
+			var uri = 'https://localhost:9999/acme/acountBalances';
 			$.ajax({
-				type: "GET",
-				contentType: "application/json",
-				beforeSend: function(request) {
-					request.setRequestHeader("Authorization", "Bearer " + result.access_token);
+				type : "GET",
+				contentType : "application/json",
+				beforeSend : function(request) {
+					request.setRequestHeader("Authorization", "Bearer "
+							+ result.access_token);
 				},
-				url: uri,
+				url : uri,
 				//data:JSON.stringify('{\'access_token\':\'' + data.access_token + '\'}'),
-				cache: false,
-		        timeout: 600000,
-		        success: function (data) {
-		        	console.log('API Success' + data);
-		        	if (id){
-		        		$('#get-single-gadget-response-display').val(JSON.stringify(data));
-		        	}else{
-		        		$('#get-gadget-response-display').val(JSON.stringify(data));
-		        	}
-		        },
-		        error: function (e) {
-		        	console.log('API Failure' + e);
-		        }
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+					console.log('API Success' + data);
+
+					$('#get-gadget-response-display').val(
+							JSON.stringify(data));
+
+				},
+				error : function(e) {
+					console.log('API Failure' + e);
+				}
 			});
 		};
-		
+
 		function getApiInfoAndExecute() {
 			//alert($.urlParam('code'));
-		    $.ajax({
-		        type: "POST",
-		        contentType: "application/json",
-		        url: "/getAuthInfo",
-		        data:JSON.stringify($.urlParam('code')) ,
-		       // dataType: 'json',
-		        cache: false,
-		        timeout: 600000,
-		        complete: function (res){
-		        	//alert('completed' + res);
-		        	console.log('completed' + res);
-		        },
-		        success: function (data) {
-		            console.log("SUCCESS : ", data);
-		            callApi(data);
-		        },
-		        error: function (e) {
-		            console.log("ERROR : ", e);
-		        }
-		    });
+			$.ajax({
+				type : "POST",
+				contentType : "application/json",
+				url : "/getAuthInfo",
+				data : JSON.stringify($.urlParam('code')),
+				// dataType: 'json',
+				cache : false,
+				timeout : 600000,
+				complete : function(res) {
+					//alert('completed' + res);
+					console.log('completed' + res);
+				},
+				success : function(data) {
+					console.log("SUCCESS : ", data);
+					callApi(data);
+				},
+				error : function(e) {
+					console.log("ERROR : ", e);
+				}
+			});
 		};
-		
-		function getApiInfoAndExecuteWithId(id) {
-			//alert($.urlParam('code'));
-		    $.ajax({
-		        type: "POST",
-		        contentType: "application/json",
-		        url: "/getAuthInfo",
-		        data:JSON.stringify($.urlParam('code')) ,
-		       // dataType: 'json',
-		        cache: false,
-		        timeout: 600000,
-		        complete: function (res){
-		        	//alert('completed' + res);
-		        	console.log('completed' + res);
-		        },
-		        success: function (data) {
-		            console.log("SUCCESS : ", data);
-		            callApi(data,id);
-		        },
-		        error: function (e) {
-		            console.log("ERROR : ", e);
-		        }
-		    });
-		}
 	</script>
 
 </body>
