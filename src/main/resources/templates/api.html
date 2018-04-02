@@ -5,34 +5,75 @@
 
 
 <body>
-		<div id="apis">
+	<div id="oauth-code" style="height: 25px;"></div>
+	<br>
+	<div id="balances-div">
+		<div class="item" style="float: left;" onclick="clickedOnDiv()">
+			<span class="glyphicon glyphicon-chevron-right" style="width: 50px;" id="balances-arrow"></span>
+		</div>
+		<div style="margin-left: 60px;" >
 			<table>
 				<tbody>
 					<tr>
-						<td style="column-width: 150px;"></td>
-						<td><br></td>
-					</tr>
-					<tr>
 						<td style="column-width: 200px;">Get Account Balances:</td>
-						<td><a id="get-gadget-href-id" href="#"> get:/acountBalances</a></td>
+						<td><a id="get-gadget-href-id" href="#">
+								get:/{id}/balances</a></td>
 					</tr>
-					<tr>
-						<td style="column-width: 200px;"></td>
-						<td><br></td>
-					</tr>
-					<tr>
+					<tr style="display: none; " id="get-balances-req-res">
 						<td style="column-width: 200px;">Response:</td>
-						<td><input id="get-gadget-response-display" type="text"
-							name="country" value="" readonly style="height: 50px;color: gray;" size="100"></td>
+						<td><textarea rows="16" cols="60" id="get-balances-response" style="margin-top: 20px;padding-top: 20px;"></textarea>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<br>
-
 	</div>
 	<br>
-	
+	<br>
+	<div id="cards-div">
+		<div class="cards-arrow" style="float: left;" onclick="clickedOnCardsDiv()">
+			<span class="glyphicon glyphicon-chevron-right" style="width: 50px;" id="cards-arrow"></span>
+		</div>
+		<div style="margin-left: 60px;" >
+			<table>
+				<tbody>
+					<tr>
+						<td style="column-width: 200px;">Get Account Cards:</td>
+						<td><a id="get-cards-href-id" href="#">
+								get:/{id}/cards</a></td>
+					</tr>
+					<tr style="display: none; " id="get-cards-req-res">
+						<td style="column-width: 200px;">Response:</td>
+						<td><textarea rows="16" cols="60" id="get-cards-response" style="margin-top: 20px;padding-top: 20px;"></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div id="transactions-div">
+		<div class="transactions-arrow" style="float: left;" onclick="clickedOnTransactionsDiv()">
+			<span class="glyphicon glyphicon-chevron-right" style="width: 50px;" id="transactions-arrow"></span>
+		</div>
+		<div style="margin-left: 60px;" >
+			<table>
+				<tbody>
+					<tr>
+						<td style="column-width: 200px;">Get Account Transactions:</td>
+						<td><a id="get-transactions-href-id" href="#">
+								get:/{id}/transactions</a></td>
+					</tr>
+					<tr style="display: none; " id="get-transactions-req-res">
+						<td style="column-width: 200px;">Response:</td>
+						<td><textarea rows="16" cols="60" id="get-transactions-response" style="margin-top: 20px;padding-top: 20px;"></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
 
 

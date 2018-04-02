@@ -39,7 +39,7 @@ class WelcomeController {
 	@RequestMapping("/redirect-to-acme")
 	public String routeToLogin() throws IOException {
 		System.out.println("Inside controller");
-		return "redirect:https://localhost:8082/external/authorize?scope=READ&response_type=code&client_id=ab88dc6cacb1417cbdd63dec28842fdb&redirect_uri=http://localhost:8080/auth";
+		return "redirect:https://localhost:8082/external/authorize?scope=balances_read&response_type=code&client_id=ab88dc6cacb1417cbdd63dec28842fdb&redirect_uri=http://localhost:8080/auth";
 	}
 
 	@RequestMapping("/auth")
